@@ -4,47 +4,33 @@
 #include <cstring>
 #include <vector>
 #include <iterator>
-using namespace std;
+#include <vector>
 
-template<typename Out>
-void split(const string &s, char delim, Out result) {
-    stringstream ss;
-    ss.str(s);
-    string item;
-    while (getline(ss, item, delim)) {
-        *(result++) = item;
-    }
-}
 
-void chomp(string &s){
-    int pos;
-    if((pos = s.find("\n")) != string::npos)
-    	s.erase(pos);
-}
-
-vector<string> load_members(string filename){
-	vector<string> members;
-	string line;
-	string header;
-	ifstream rfile(filename.c_str());
-	if(rfile.is_open()){
-		getline(rfile, header);
-		while(!rfile.eof()){
-			string[] words = new string[3];
-			rfile >> line;
-			chomp(line);
-			cout << line << endl;
-			split(line, ',', words);
-			members.push_back(words)
+std::vector<std::vector<std::string>> load_members(std::string filename){
+	//std::vector<std::string> member;
+	std::vector<std::vector<std::string>> whole;
+	std::string line;
+	std::ifstream rfile;
+	rfile.open(filename.c_str());
+		while (getline(rfile, line)){
+			std::vector<std::string> member;
+			std::stringstream strstrm(line);
+			std::string word = ""; 
+			while (getline(strstrm,word, ',')) member.push_back(word);
+			whole.push_back(member);
 		}
-	}
 	rfile.close();
-	return members;
-}
+	return whole;
+ }
 
 int main(){
-	vector<string> test = load_members("../members.csv");
-	for(int i = 0; i < test.size(); i++)
-		cout << test[i] << endl;
+	std::vector<std::vector<std::string>> test = load_members("../members.csv");
+	for(int j = 0; j < test.size(); j++){
+		for(int i = 0; i < test.at(j).size(); i++){
+			std::cout << test.at(j).at(i);
+		}
+		std::cout << std::endl;
+	}
 	return 0;
 }
