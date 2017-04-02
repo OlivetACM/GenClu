@@ -1,11 +1,12 @@
 //linear search method to confirm that member exsits
-#include<iostream>
-#include<string>
-#include<vector>
+#include <iostream>
+#include <string>
+#include <vector>
+#include "memberexists.h"
 
-using namespace std;
+//using std::vector; using std::string; NONE OF THESE
 
-int memberexists(vector<vector<string>> members, string idnum){
+int memberexists(std::vector<std::vector<std::string>> members, std::string idnum){
 //Takes a Vector of a String Vector
 //Returns index at with idnum is found, or -1 if idnum is not found
         for(int i = 0; i < members.size(); i++){
@@ -22,11 +23,11 @@ int memberexists(vector<vector<string>> members, string idnum){
 /*
 int main()
 {
-    vector<vector<string>> members;
-    vector<string> memtest;
-    vector<string> testmem;
+    std::vector<std::vector<std::string>> members;
+    std::vector<std::string> memtest;
+    std::vector<std::string> testmem;
 
-    string idnum = "110222";
+    std::string idnum = "110222";
 
     memtest.push_back({"222011"});
     memtest.push_back({"Name"});
@@ -40,9 +41,8 @@ int main()
 
     members.push_back({testmem});   //Add inner vector to outer vector
 
-    cout<<memberexists(members, idnum); //Returns 1 for this example
+    std::cout<<memberexists(members, idnum); //Returns 1 for this example
 
     return 0;
 }
 */
-
