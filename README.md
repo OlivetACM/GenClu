@@ -29,3 +29,19 @@ There are several backend helper functions which work to compress the amount of 
 2. Helpers
 3. GUI
 The functions and purposes for all of these things will be described below. The exact descriptions for each will be moved into the function sometime after completion. 
+
+### Headers
+These are just the header files for the project. Nothing special to mention.
+
+### Helpers
+
+1. ```load_members(String filename)```
+ * This function has two purposes. The fist is to load in the members.csv data so that the program can start taking attendance. The other purpose is to readin old attendance data so it can be adjusted in memory and then later spit back into a truncated file.
+2. ```memberexists(std::vector<std::vector<string>> members, string idnum)```
+ * This function is just a specialized linear search function. It combs through the members vector search for the given string idnum. If found it returns the integer location in the outmost vector of the member in question. Otherwise it returns -1.
+3. ```checkprevious(String folder)```
+ * Scans the attendance for to determine if there were previous events and if so what the names of those previous events were. If there were no previous events check previous should return null.
+
+### QT
+
+_To be expanded_...
