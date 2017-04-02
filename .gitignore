@@ -39,3 +39,5 @@ CMakeLists.txt.user
 # Personal Ignores
 *.csv
 *.un*
+*.swp
+*.exe
