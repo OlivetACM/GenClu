@@ -7,9 +7,9 @@
 
 
 
-std::vector<std::vector<std::string>> load_members(std::string filename){
+std::vector<std::vector<std::string> > load_members(std::string filename){
 	//std::vector<std::string> member;
-	std::vector<std::vector<std::string>> whole;
+	std::vector<std::vector<std::string> > whole;
 	std::string line;
 	std::ifstream rfile;
 	rfile.open(filename.c_str());
@@ -25,7 +25,7 @@ std::vector<std::vector<std::string>> load_members(std::string filename){
  }
 
 int main(){
-	std::vector<std::vector<std::string>> test = load_members("../members.csv");
+	std::vector<std::vector<std::string> > test = load_members("../members.csv");
 	for(int j = 0; j < test.size(); j++){
 		for(int i = 0; i < test.at(j).size(); i++){
 			std::cout << test.at(j).at(i);
