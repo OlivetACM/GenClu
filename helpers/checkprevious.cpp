@@ -11,8 +11,10 @@ using namespace std;
 void checkprevious()
 {
 	string present_day = "00000000"; //yyyymmdd
+	string file_location = "";
 	time_t now = time(0);
 	char* dt = ctime(&now);
+
 	map<string, string> month
 	{
 		{"Jan", "01"},
@@ -53,14 +55,44 @@ void checkprevious()
 	{
 		present_day[i] = dt[8+(i-6)];//day
 	}
-	cout << present_day << endl;
+
+	file_location = file_location + present_day;
+	file_location = file_location + "/";
+	file_location = file_location + "event1.csv";
+	ifstream file(file_location);
+
+	if(file.is_open())
+	{
+		string tempfilecheck = file_location;
+		for(int i = 1; i < 100; i++)
+		{
+			tempfilecheck[14] = str(i);// should run through and check for more than one event file
+			ifstream file2(tempfilecheck);//I have to figure out how to turn a int into string and will be all set.
+			cout << tempfilecheck << endl;
+			if(file2.is_open())
+			{
+			}else{
+				cout << "there are curently " << i << " events made today" << endl;
+				i = 100;
+			}
+		}
+
+			
+	}else{
+		cout << "there is no event for today yet" << endl;
+	}
+
+
 }
 
 int main()
 {
 	checkprevious();
+
+
 	return 0;
 }
+
 
 
 
