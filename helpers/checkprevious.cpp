@@ -10,7 +10,7 @@
 using namespace std;
 
 
-void checkprevious()
+int checkprevious()
 {
 	string present_day = "00000000"; //yyyymmdd
 	string file_location = "";
@@ -86,14 +86,16 @@ void checkprevious()
 			{
 				//does nothing so it goes through the for loop again and checks for anothe event.csv file.
 			}else{
-				cout << "there are curently " << (i-1) << " events made today" << endl;//tells the user how many events there are.
+				//cout << "there are curently " << (i-1) << " events made today" << endl;//tells the user how many events there are.
+				return (i-1);
 				i = 100;//ends the for loop.
 			}
 		}
 
 			
 	}else{
-		cout << "there is no event for today yet" << endl;
+		//cout << "there is no event for today yet" << endl;
+		return 0;
 	}
 }
 
@@ -101,11 +103,13 @@ void checkprevious()
 
 int main()
 {
-	checkprevious();
+	cout << checkprevious();
 
 
 	return 0;
 }
+
+
 
 
 
