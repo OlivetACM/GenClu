@@ -4,6 +4,8 @@
 #include <fstream>
 #include <map>
 #include <sstream>
+#include <vector>
+#include <dirent.h>
 
 //using std::string;, using std::ctime;, using std::cout;
 //using std::endl;, using std::map;
@@ -16,6 +18,7 @@ int checkprevious()
 	string file_location = "";
 	time_t now = time(0);
 	char* dt = ctime(&now);
+	vector<string> files;
 
 //----------------------------------------------------------------------------
 //this part of the code creats a takes the time I got from c time and peices together a yyymmdd
@@ -64,46 +67,41 @@ int checkprevious()
 //This part of the code will peace together the rest of the file_location that is needed.
 //for testing perpaces I aimed for 20170404/event1.csv, because I created a event1.csv in a directory 20170404.
 //event1.csv is just the starting event the program will look for.
-
+	file_location = "c:\\users/koryslaby/documents/code/s.ssum/acm projects/";//file location. will have to be edited.
 	file_location = file_location + present_day;//adds the present day part 20170404.
-	file_location = file_location + "/";//20170404/
-	file_location = file_location + "event1.csv";//20170404/event1.csv
-	ifstream file(file_location);//searchs for the now complete file location. or so the one I tested for it can be changed.
+	file_location = file_location + "\\";
 
-	if(file.is_open())//This next part will check to see if there is more that one event in the present day directory(20170404).
-	{
-		string tempfilecheck = file_location;
-		for(int i = 1; i < 10; i++)
-		{
-			//----------------------------
-			stringstream ss;	
-			ss << i;				//used in integer to string conversion.
-			string nums = ss.str();
-			//-----------------------------
-			tempfilecheck[14] = nums[0];//changes the event1.csv into event2.csv or 3,4,5,etc. 
-			ifstream file2(tempfilecheck);
-			if(file2.is_open())
-			{
-				//does nothing so it goes through the for loop again and checks for anothe event.csv file.
-			}else{
-				//cout << "there are curently " << (i-1) << " events made today" << endl;//tells the user how many events there are.
-				return (i-1);
-				i = 100;//ends the for loop.
-			}
-		}
-
-			
-	}else{
-		//cout << "there is no event for today yet" << endl;
-		return 0;
+	
+	DIR *dir;
+	struct dirent *ent;
+	if ((dir = opendir (file_location.c_str())) != NULL) {
+  	/* print all the files and directories within directory */
+  		while ((ent = readdir (dir)) != NULL) {
+  		  files.push_back(ent->d_name);
+ 		 }
+ 		 closedir (dir);
+	} else {
+	  /* could not open directory */
+	  perror ("");
+	  return EXIT_FAILURE;
 	}
+	
+	for(vector<string>::iterator count = files.begin(); count < files.end(); count++)
+	{
+		
+		cout << *count << endl;
+		
+	}
+
+	return 0;
+
 }
 
 
 
 int main()
 {
-	cout << checkprevious();
+	checkprevious();
 
 
 	return 0;
