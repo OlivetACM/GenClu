@@ -12,7 +12,7 @@
 using namespace std;
 
 
-int checkprevious()
+vector<string> checkprevious()
 {
 	string present_day = "00000000"; //yyyymmdd
 	string file_location = "";
@@ -71,7 +71,9 @@ int checkprevious()
 	file_location = file_location + present_day;//adds the present day part 20170404.
 	file_location = file_location + "\\";
 
-	
+//	cout << "file location is " << file_location << endl;
+
+	//below code found online.	
 	DIR *dir;
 	struct dirent *ent;
 	if ((dir = opendir (file_location.c_str())) != NULL) {
@@ -83,29 +85,29 @@ int checkprevious()
 	} else {
 	  /* could not open directory */
 	  perror ("");
-	  return EXIT_FAILURE;
-	}
-	
-	for(vector<string>::iterator count = files.begin(); count < files.end(); count++)
-	{
-		
-		cout << *count << endl;
-		
+	  return files;
 	}
 
-	return 0;
+	return files;
 
 }
 
 
-
+//testing done on my computer worked 100%
 int main()
 {
 	checkprevious();
+	vector<string> test = checkprevious();
+	for(vector<string>::iterator count = test.begin(); count < test.end(); count++)
+	{
+		cout << *count << endl;
+	}
 
 
 	return 0;
 }
+
+
 
 
 
