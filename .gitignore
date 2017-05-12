@@ -9,6 +9,7 @@
 *.so
 *.dll
 *.dylib
+*.obj
 
 # Qt-es
 
@@ -41,3 +42,7 @@ CMakeLists.txt.user
 *.un*
 *.swp
 *.exe
+
+# Compilation Ignores
+debug/
+release/
