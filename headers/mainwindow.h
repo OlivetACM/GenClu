@@ -10,11 +10,17 @@ class MainWindow : public QWidget {
     public:
         // Constructor
         MainWindow(QWidget *parent = 0);
+    
+    private slots:
+        void manualEntry();
+        void close();
+
 
     private:
         // Variables
         QLabel *key;
-
+        bool concat;
+        QString lastId;
         // Methods
         void keyPressEvent(QKeyEvent *event);
 
