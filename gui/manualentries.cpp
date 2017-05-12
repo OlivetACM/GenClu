@@ -1,11 +1,12 @@
 #include <QWidget>
+#include <QDialog>
 #include <QLineEdit>
 #include <QGridLayout>
 #include <QLabel>
 #include <QPushButton>
 #include <manualentries.h>
 
-manualEntry::manualEntry(QWidget *parent) : QWidget(parent){
+manualEntry::manualEntry(QWidget *parent, Qt::WindowFlags f) : QDialog(parent, f){
     setWindowTitle("Manual Entry");
     
     // Generate Layout
@@ -26,6 +27,8 @@ manualEntry::manualEntry(QWidget *parent) : QWidget(parent){
 
     QPushButton *cancel = new QPushButton("Cancel", this);
     QPushButton *confirm = new QPushButton("Confirm", this);
+    connect(cancel, SIGNAL(clicked()), this, SLOT(reject()));
+    connect(confirm, SIGNAL(clicked()), this, SLOT(accept()));
     
     // Tying it all together
     grid->addWidget(line1, 0, 0);
@@ -40,4 +43,5 @@ manualEntry::manualEntry(QWidget *parent) : QWidget(parent){
     grid->addWidget(confirm, 3, 1);
     grid->addWidget(cancel, 3, 2);
 
+    setLayout(grid);
 }
