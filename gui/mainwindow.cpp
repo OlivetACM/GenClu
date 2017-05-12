@@ -8,6 +8,7 @@
 #include <QGridLayout>
 #include <QFont>
 #include <QDebug>
+#include <QDialog>
 #include <mainwindow.h>
 #include <badswipe.h>
 
@@ -68,8 +69,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
     else if (event->key() == Qt::Key_Question) {
         concat = false;
     }
-    else if (event->key() == Qt::Key_Enter) {
-        
+    else if (event->key() == Qt::Key_Escape) {
+        qDebug() << QString("Entered!");
+        improperSwipe();
     }
     else if (concat) {
         lastId.append(event->text());
@@ -78,8 +80,11 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
 }
 
 void MainWindow::improperSwipe() {
-    badSwipe doManual = badSwipe(this);
-    int results = doManual.exec();
+    badSwipe *doManual = new badSwipe(this);
+    //doManual->show();
+    int results = doManual->exec();
+    qDebug() << QString("Marker 1");
+    delete doManual;
     qDebug() << results;
 }
 

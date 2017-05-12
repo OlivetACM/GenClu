@@ -6,7 +6,8 @@
 #include <badswipe.h>
 
 badSwipe::badSwipe(QWidget *parent, Qt::WindowFlags f) : QDialog(parent, f) {
-    //setWindowTitle("Bad Swipe Detected");
+//badSwipe::badSwipe(QWidget *parent) : QDialog(parent) {
+    setWindowTitle("Bad Swipe Detected");
     // Generate layout
     QGridLayout *grid = new QGridLayout(this);
     // Generate buttons
@@ -20,5 +21,7 @@ badSwipe::badSwipe(QWidget *parent, Qt::WindowFlags f) : QDialog(parent, f) {
     grid->addWidget(warning, 0, 0, 2, 2);
     grid->addWidget(cancel, 3, 2);
     grid->addWidget(manual, 3, 1);
+
+    setLayout(grid);
 
 }
