@@ -23,5 +23,6 @@ class MainWindow : public QWidget {
         QString lastId;
         // Methods
         void keyPressEvent(QKeyEvent *event);
+        void improperSwipe();
 
 };

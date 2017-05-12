@@ -9,6 +9,7 @@
 #include <QFont>
 #include <QDebug>
 #include <mainwindow.h>
+#include <badswipe.h>
 
 MainWindow::MainWindow (QWidget *parent) : QWidget(parent) {
     setWindowTitle("Generic Club Tracker");
@@ -67,10 +68,19 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
     else if (event->key() == Qt::Key_Question) {
         concat = false;
     }
+    else if (event->key() == Qt::Key_Enter) {
+        
+    }
     else if (concat) {
         lastId.append(event->text());
     }
     qDebug() << lastId;
+}
+
+void MainWindow::improperSwipe() {
+    badSwipe doManual = badSwipe(this);
+    int results = doManual.exec();
+    qDebug() << results;
 }
 
 int main(int argc, char **argv) {
