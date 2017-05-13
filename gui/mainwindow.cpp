@@ -62,8 +62,8 @@ void MainWindow::gatherIDs() {
     allMembers = loadMembers("../members.csv");
     qDebug() << allMembers;
     // Also open the file for writing
-    memberFile.setFileName("../members.csv");
-    memberFile.open(QIODevice::WriteOnly | QIODevice::Text);
+    //memberFile.setFileName("../members.csv");
+    //memberFile.open(QIODevice::WriteOnly | QIODevice::Text);
 }
 
 void MainWindow::close() {
@@ -109,6 +109,8 @@ void MainWindow::manual() {
         if (!newMember["id"].trimmed().isEmpty() && 
                 !newMember["first"].trimmed().isEmpty() &&
                 !newMember["last"].trimmed().isEmpty()) {
+            QFile memberFile("../members.csv");
+            memberFile.open(QIODevice::Append | QIODevice::Text);
             QTextStream memberStream(&memberFile);
             memberStream << newMember["id"] + "," +
                             newMember["last"] + "," + 
@@ -118,6 +120,9 @@ void MainWindow::manual() {
             temp["first"] = newMember["first"];
             temp["last"] = newMember["last"];
             allMembers[newMember["id"]] = temp;
+
+            qDebug() << QString("Updated Members:\n") << allMembers;
+            memberFile.close();
         }
     }
     delete manWindow;

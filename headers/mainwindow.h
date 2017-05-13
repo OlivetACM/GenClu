@@ -26,7 +26,7 @@ class MainWindow : public QWidget {
         QFile currentFile;
         QMap<QString, QMap<QString, QString>> allMembers;
         QStringList attendance;
-        QFile memberFile;
+        //QFile memberFile;
 
         // Methods
         void keyPressEvent(QKeyEvent *event);
