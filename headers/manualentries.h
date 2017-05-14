@@ -11,11 +11,17 @@ class manualEntry : public QDialog {
 
     public:
         manualEntry(QWidget *parent = 0, Qt::WindowFlags f = 0);
+        manualEntry(QString id, QWidget *parent = 0, Qt::WindowFlags f = 0);
+
+        // Methods
         QMap<QString, QString> data();
 
     private:
         QLineEdit *firstName;
         QLineEdit *lastName;
         QLineEdit *studentID;
+
+        // Methods
+        void initLayout(QGridLayout *grid);
 
 };

@@ -9,10 +9,22 @@
 #include <manualentries.h>
 
 manualEntry::manualEntry(QWidget *parent, Qt::WindowFlags f) : QDialog(parent, f){
+    QGridLayout *grid = new QGridLayout(this);
+    initLayout(grid);
+}
+
+manualEntry::manualEntry(QString id, QWidget *parent, Qt::WindowFlags f) : QDialog(parent, f){
+    QGridLayout *grid = new QGridLayout(this);
+    initLayout(grid);
+    // Set the label to non editable
+    studentID->setReadOnly(true);
+    studentID->setText(id);
+}
+
+void manualEntry::initLayout(QGridLayout *grid) {
     setWindowTitle("Manual Entry");
     
     // Generate Layout
-    QGridLayout *grid = new QGridLayout(this);
 
     // Generate input and selection boxes
     QLabel *line1 = new QLabel("First Name: ", this);
@@ -46,6 +58,7 @@ manualEntry::manualEntry(QWidget *parent, Qt::WindowFlags f) : QDialog(parent, f
     grid->addWidget(cancel, 3, 2);
 
     setLayout(grid);
+
 }
 
 

@@ -77,6 +77,13 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
     }
     else if (event->key() == Qt::Key_Question) {
         concat = false;
+        // Call manual Entry if not in users
+        QStringList keys = allMembers.keys();
+        if (!keys.contains(lastId)) {
+            // Call Manual Entry
+            manual(lastId);
+        }
+        // Then mark them as attended
     }
     else if (event->key() == Qt::Key_Escape) {
         improperSwipe();
@@ -99,8 +106,14 @@ void MainWindow::improperSwipe() {
 
 }
 
-void MainWindow::manual() {
-    manualEntry *manWindow = new manualEntry(this);
+void MainWindow::manual(QString id) {
+    manualEntry *manWindow = nullptr;
+    if (id != NULL) {
+        manWindow = new manualEntry(id, this);
+    }
+    else {
+        manWindow = new manualEntry(this);
+    }
     int result = manWindow->exec();
     if (result) {
         // Gather results

@@ -14,7 +14,7 @@ class MainWindow : public QWidget {
         MainWindow(QWidget *parent = 0);
     
     private slots:
-        void manual();
+        void manual(QString id = NULL);
         void close();
 
 
