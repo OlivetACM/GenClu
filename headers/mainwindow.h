@@ -26,16 +26,21 @@ class MainWindow : public QWidget {
         QLabel *key;
         bool concat;
         QString lastId;
-        QFile currentFile;
+        QString memberFile;
+        QString attendFile;
         QMap<QString, QMap<QString, QString>> allMembers;
         QStringList attendance;
         
         QTimer *keyTimer = nullptr;
+        bool goodSwipe = false;
+        QString markType = "csv";
         //QFile memberFile;
 
         // Methods
         void keyPressEvent(QKeyEvent *event);
         void improperSwipe();
         void gatherIDs();
+        void mark();
+
 
 };

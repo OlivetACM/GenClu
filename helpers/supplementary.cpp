@@ -27,6 +27,7 @@ QMap<QString, QMap<QString, QString>> loadMembers(QString filename) {
                 results[id] = data;
                 results[id]["last"] = member.at(1);
                 results[id]["first"] = member.at(2);
+                results[id]["present"] = "false";
             }
         }
 
@@ -34,3 +35,9 @@ QMap<QString, QMap<QString, QString>> loadMembers(QString filename) {
     file.close();
     return results;
 }
+// Needed for accessing old attendance data and changing it
+/*
+ *QMap<QString, QMap<QString, QString>> loadOldAttendance(QString filename) {
+ *    
+ *}
+ */

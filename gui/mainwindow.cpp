@@ -3,6 +3,7 @@
 #include <QKeyEvent>
 #include <QDate>
 #include <QDateTime>
+#include <QDir>
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QGridLayout>
@@ -14,6 +15,7 @@
 #include <mainwindow.h>
 #include <badswipe.h>
 #include <manualentries.h>
+#include <previousevents.h>
 
 MainWindow::MainWindow (QWidget *parent) : QWidget(parent) {
     setWindowTitle("Generic Club Tracker");
@@ -62,11 +64,14 @@ MainWindow::MainWindow (QWidget *parent) : QWidget(parent) {
     // Startup the csvDB
     gatherIDs();
     show();
+
+    memberFile = "../members.csv";
+    getAttendanceFilename();
 }
 
 void MainWindow::gatherIDs() {
     // Open a Members CSV
-    allMembers = loadMembers("../members.csv");
+    allMembers = loadMembers(memberFile);
     qDebug() << allMembers;
     // Also open the file for writing
     //memberFile.setFileName("../members.csv");
@@ -78,18 +83,26 @@ void MainWindow::close() {
 }
 
 void MainWindow::startAttendance() {
-    // Call manual Entry if not in users
     QStringList keys = allMembers.keys();
-    if (!keys.contains(lastId)) {
+    // Check good swipe
+    if (!goodSwipe) {
+        improperSwipe();
+    }
+    // Call manual Entry if not in users
+    else if (!keys.contains(lastId)) {
         // Call Manual Entry
         manual(lastId);
     }
     // Then mark them as attended
+    else {
+        mark();
+    }
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event) {
     // Only Fire when timer is off
     if (event->key() == Qt::Key_Semicolon) {
+        goodSwipe = false;
         // Catches first input but not the rest
         if (!keyTimer->isActive()) {
             lastId = QString();
@@ -100,20 +113,13 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
     }
     else if (event->key() == Qt::Key_Question) {
         concat = false;
+        goodSwipe = true;
     }
-    //else if (event->key() == Qt::Key_Return) {
-        // Call manual Entry if not in users
-        //QStringList keys = allMembers.keys();
-        //if (!keys.contains(lastId)) {
-            // Brief pause to stop garbage input from the card
-            //QThread::msleep(1000);
-            // Call Manual Entry
-            //manual(lastId);
-        //}
-        // Then mark them as attended
-    //}
     else if (concat) {
         lastId.append(event->text());
+    }
+    else {
+        goodSwipe = false;
     }
     qDebug() << lastId;
 }
@@ -156,6 +162,7 @@ void MainWindow::manual(QString id) {
             QMap<QString, QString> temp;
             temp["first"] = newMember["first"];
             temp["last"] = newMember["last"];
+            temp["present"] = false;
             allMembers[newMember["id"]] = temp;
 
             qDebug() << QString("Updated Members:\n") << allMembers;
@@ -163,6 +170,49 @@ void MainWindow::manual(QString id) {
         }
     }
     delete manWindow;
+
+    // Mark as attended
+    mark()
+}
+
+void MainWindow::mark() {
+    // Check if already marked
+    if (allMembers[lastId]["present"] == "false") {
+        allMembers[lastId]["present"] = "true";
+        // Write to file -> Replace with 
+        // https://github.com/jmcnamara/MSVCLibXlsxWriter
+        if (markType == "csv") {
+            QFile writeTo(attendFile);
+            writeTo.open(QIODevice::Append | QIODevice::Text);
+            QTextStream output(&writeTo);
+            QString last = allMembers[lastId]["last"];
+            QString first = allMembers[lastId]["first"];
+            output << last + ","
+                << first + ","
+                << lastId;
+                << "\n";
+            // Show popup confirming
+            //
+            writeTo.close();
+        }
+        else if (markType == "xlsx") {
+            //
+        }
+    }
+
+}
+
+void getAttendanceFilename() {
+    // Pass Todays Date
+    PreviousEvent *todaysEvent = new PreviousEvent(QDate::currentDate());
+    int result = todaysEvent.exec();
+    if (result) {
+        attendFile = todaysEvent->getAttendanceFilename();
+        todaysEvent->delete();
+    }
+    else {
+        close();
+    }
 }
 
 int main(int argc, char **argv) {
