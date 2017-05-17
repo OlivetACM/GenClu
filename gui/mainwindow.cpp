@@ -9,6 +9,7 @@
 #include <QFont>
 #include <QDebug>
 #include <QDialog>
+#include <QThread>
 #include <supplementary.h>
 #include <mainwindow.h>
 #include <badswipe.h>
@@ -41,9 +42,15 @@ MainWindow::MainWindow (QWidget *parent) : QWidget(parent) {
     buttonLayout->addWidget(manual, 0, 0);
     buttonLayout->addWidget(finish, 0, 1);
 
+    // Timer to fix garbage card input
+    keyTimer = new QTimer(this);
+    // Preppin'
+    keyTimer->setSingleShot(true);
+
     // Slots
     connect(manual, SIGNAL(clicked()), this, SLOT(manual()));
     connect(finish, SIGNAL(clicked()), this, SLOT(close()));
+    connect(keyTimer, SIGNAL(timeout()), this, SLOT(startAttendance()));
     // Generate Layout
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->addWidget(top, 1, Qt::AlignCenter);
@@ -70,24 +77,41 @@ void MainWindow::close() {
 
 }
 
+void MainWindow::startAttendance() {
+    // Call manual Entry if not in users
+    QStringList keys = allMembers.keys();
+    if (!keys.contains(lastId)) {
+        // Call Manual Entry
+        manual(lastId);
+    }
+    // Then mark them as attended
+}
+
 void MainWindow::keyPressEvent(QKeyEvent *event) {
+    // Only Fire when timer is off
     if (event->key() == Qt::Key_Semicolon) {
-        lastId = QString();
-        concat = true;
+        // Catches first input but not the rest
+        if (!keyTimer->isActive()) {
+            lastId = QString();
+            concat = true;
+            // 100ms should be enough time to capture card input
+            keyTimer->start(100);
+        }
     }
     else if (event->key() == Qt::Key_Question) {
         concat = false;
+    }
+    //else if (event->key() == Qt::Key_Return) {
         // Call manual Entry if not in users
-        QStringList keys = allMembers.keys();
-        if (!keys.contains(lastId)) {
+        //QStringList keys = allMembers.keys();
+        //if (!keys.contains(lastId)) {
+            // Brief pause to stop garbage input from the card
+            //QThread::msleep(1000);
             // Call Manual Entry
-            manual(lastId);
-        }
+            //manual(lastId);
+        //}
         // Then mark them as attended
-    }
-    else if (event->key() == Qt::Key_Escape) {
-        improperSwipe();
-    }
+    //}
     else if (concat) {
         lastId.append(event->text());
     }
