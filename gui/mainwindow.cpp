@@ -182,7 +182,7 @@ void MainWindow::mark() {
         // Write to file -> Replace with 
         // https://github.com/jmcnamara/MSVCLibXlsxWriter
         if (markType == "csv") {
-            QFile writeTo(attendFile);
+            QFile writeTo(attendFile + ".csv");
             writeTo.open(QIODevice::Append | QIODevice::Text);
             QTextStream output(&writeTo);
             QString last = allMembers[lastId]["last"];
