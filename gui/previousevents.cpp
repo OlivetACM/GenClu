@@ -1,4 +1,5 @@
 #include <QWidget>
+#include <QDebug>
 #include <QDialog>
 #include <QDate>
 #include <QDir>
@@ -23,6 +24,12 @@ PreviousEvent::PreviousEvent(QDate today, QWidget *parent, Qt::WindowFlags f) : 
     radioGroup = new QButtonGroup(this);
     newEventRadio = new QRadioButton("New Event", this);
     previousEventRadio = new QRadioButton("Previous Event", this);
+
+    newEventRadio->setChecked(true);
+
+    if (allFiles.isEmpty()) {
+        previousEventRadio->setCheckable(false);
+    }
 
     radioGroup->addButton(newEventRadio, 0);
     radioGroup->addButton(previousEventRadio, 1);
@@ -56,19 +63,20 @@ PreviousEvent::PreviousEvent(QDate today, QWidget *parent, Qt::WindowFlags f) : 
 
 void PreviousEvent::getEvents(QDate today) {
     // Sets newFile and allFiles for the combo box situation
-    current.setCurrent("./attendance/");
-    QString todayStr = today.toString("yyy.MM.dd");
+    current.setPath("./attendance/");
+    QString todayStr = today.toString("yyyy.MM.dd");
     if (!current.exists()) {
-        current.setCurrent("./");
+        current.setPath("./");
         current.mkdir("attendance");
     }
-    current.setCurrent("./attendance/" + todayStr + "/");
+    current.setPath("./attendance/" + todayStr + "/");
     if (!current.exists()) {
-        current.setCurrent("./attendance/");
+        current.setPath("./attendance/");
         current.mkdir(todayStr);
-        current.setCurrent("./attendance/" + todayStr + "/");
+        current.setPath("./attendance/" + todayStr + "/");
     }
     // Check For previous events here
+    qDebug() << "Current Event Directory: " << current.absolutePath();
     allFiles = current.entryList(QDir::Files);
     if (allFiles.isEmpty()) {
         newFile = "event1";

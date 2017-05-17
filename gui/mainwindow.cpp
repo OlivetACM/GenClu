@@ -211,6 +211,7 @@ void MainWindow::getAttendanceFilename() {
     int result = todaysEvent->exec();
     if (result) {
         attendFile = todaysEvent->getAttendanceFilename();
+        qDebug() << "Event file: " << attendFile << " selected!";
         delete todaysEvent;
     }
     else {
