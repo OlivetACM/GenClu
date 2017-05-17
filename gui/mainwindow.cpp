@@ -10,7 +10,7 @@
 #include <QFont>
 #include <QDebug>
 #include <QDialog>
-#include <QThread>
+#include <QString>
 #include <supplementary.h>
 #include <mainwindow.h>
 #include <badswipe.h>
@@ -62,24 +62,26 @@ MainWindow::MainWindow (QWidget *parent) : QWidget(parent) {
     setLayout(layout);
     //layout->setAlignment(Qt::AlignHCenter);
     // Startup the csvDB
-    gatherIDs();
     show();
 
     memberFile = "../members.csv";
+    gatherIDs();
     getAttendanceFilename();
 }
 
+void MainWindow::close() {
+    QApplication::quit();
+}
+
+
 void MainWindow::gatherIDs() {
     // Open a Members CSV
+    qDebug() << "Loading in" << memberFile;
     allMembers = loadMembers(memberFile);
     qDebug() << allMembers;
     // Also open the file for writing
     //memberFile.setFileName("../members.csv");
     //memberFile.open(QIODevice::WriteOnly | QIODevice::Text);
-}
-
-void MainWindow::close() {
-
 }
 
 void MainWindow::startAttendance() {
@@ -125,6 +127,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
 }
 
 void MainWindow::improperSwipe() {
+    concat = false;
     badSwipe *doManual = new badSwipe(this);
     //doManual->show();
     int result = doManual->exec();
@@ -162,7 +165,7 @@ void MainWindow::manual(QString id) {
             QMap<QString, QString> temp;
             temp["first"] = newMember["first"];
             temp["last"] = newMember["last"];
-            temp["present"] = false;
+            temp["present"] = "false";
             allMembers[newMember["id"]] = temp;
 
             qDebug() << QString("Updated Members:\n") << allMembers;
@@ -172,7 +175,7 @@ void MainWindow::manual(QString id) {
     delete manWindow;
 
     // Mark as attended
-    mark()
+    mark();
 }
 
 void MainWindow::mark() {
@@ -189,7 +192,7 @@ void MainWindow::mark() {
             QString first = allMembers[lastId]["first"];
             output << last + ","
                 << first + ","
-                << lastId;
+                << lastId
                 << "\n";
             // Show popup confirming
             //
@@ -202,16 +205,16 @@ void MainWindow::mark() {
 
 }
 
-void getAttendanceFilename() {
+void MainWindow::getAttendanceFilename() {
     // Pass Todays Date
     PreviousEvent *todaysEvent = new PreviousEvent(QDate::currentDate());
-    int result = todaysEvent.exec();
+    int result = todaysEvent->exec();
     if (result) {
         attendFile = todaysEvent->getAttendanceFilename();
-        todaysEvent->delete();
+        delete todaysEvent;
     }
     else {
-        close();
+        QApplication::quit();
     }
 }
 

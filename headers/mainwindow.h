@@ -37,6 +37,7 @@ class MainWindow : public QWidget {
         //QFile memberFile;
 
         // Methods
+        void getAttendanceFilename();
         void keyPressEvent(QKeyEvent *event);
         void improperSwipe();
         void gatherIDs();
