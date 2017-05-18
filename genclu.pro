@@ -1,4 +1,4 @@
-CONFIG += qt debug_and_release console
+CONFIG += qt debug_and_release console static
 QT += widgets
 INCLUDEPATH += headers/ cpp/ gui/
 HEADERS +=  headers/mainwindow.h \
