@@ -44,6 +44,8 @@ class MainWindow : public QWidget {
         void improperSwipe();
         void gatherIDs();
         void mark();
+        void resetMarked();
+        void reMark();
 
 
 };

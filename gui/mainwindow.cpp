@@ -236,8 +236,46 @@ void MainWindow::getAttendanceFilename() {
     if (attendFile.trimmed().isEmpty()) {
         exit(0);
     }
+    else {
+        QFile input(attendPath + "/" + attendFile + "." + markType);
+        // If the file already exists
+        if (input.exists()) {
+            // loading old file
+            // Make sure to up date the attendance record so it 
+            // won't double mark people
+            resetMarked();
+            reMark();
+        }
+    }
 }
 
+void MainWindow::resetMarked() {
+    QStringList keys = allMembers.keys();
+    int len = keys.length();
+    for (int i = 0; i < len; i++) {
+        allMembers[keys.at(i)]["present"] = "false";
+    }
+}
+
+void MainWindow::reMark() {
+    if (markType == "csv") {
+    // Read in new file
+    QFile input(attendPath + "/" + attendFile + ".csv");
+    input.open(QIODevice::ReadOnly | QIODevice::Text);
+    QTextStream readFrom(&input);
+    QStringList members = readFrom.readAll().trimmed().split("\n");
+    input.close();
+    int len = members.length();
+    qDebug() << "Previous Entries" << len;
+    QStringList member;
+    for (int i = 0; i < len; i++) {
+        member = members.at(i).split(",");
+        allMembers[member.at(2)]["present"] = "true";
+    }
+    qDebug() << "Attendance Updated for New File";
+    qDebug() << allMembers;
+    }
+}
 int main(int argc, char **argv) {
     QApplication app(argc, argv);
     MainWindow window;
