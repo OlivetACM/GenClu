@@ -15,34 +15,49 @@ There are several hard coded things that exist in GenClu. Members only have thre
 ```
 Where the starting character is denoted by either a ; or a %. If this is not the same for you or your college / id system stores other data you will need to adjust the delimiters through which the swipe can be detected. 
 
-_To be expanded_...
+This behavior can be changed in `keyPressEvent` inside of MainWindow. Essentially the starting character kicks off a timer where all the input is read in from the card reader and then when the final marker, in our case the "?", is read in, `keyPressEvent` just discards the extra input.
 
 ## Compiling GenClu
 
-_To be expanded_
+This program revolves heavily around QT 5.8 and a CPP compiler. 
+The source code isn't written to be compatible with G++ however that being said, there isn't any Windows specific code that would prevent the program from compiling using G++.
+
+First you need to run QMake to generate all the MOC files.
+```
+> qmake genclu.pro
+```
+
+Then a simple make command. Currently the program only compiles for debug and not release. 
+To compile it for debug use
+```
+> nmake
+```
+
+To compile for release change the following line in genclu.pro
+```
+CONFIG += qt debug console
+```
+To
+```
+CONFIG += qt release console
+```
+
+Then run qmake so that it updates the Makefile. Then finally just run nmake.
+```
+> nmake
+```
+
 
 ## What and How Functions Work
 
-### Helper Functions
-There are several backend helper functions which work to compress the amount of code which might otherwise be shoved into the gui as a methods. In an effort to keep the gui clean an easy to read we have seperated our code into three sections:
-1. Headers
-2. Helpers
-3. GUI
-The functions and purposes for all of these things will be described below. The exact descriptions for each will be moved into the function sometime after completion. 
-
 ### Headers
-These are just the header files for the project. Nothing special to mention.
 
 ### Helpers
 
-1. ```load_members(String filename)```
- * This function has two purposes. The fist is to load in the members.csv data so that the program can start taking attendance. The other purpose is to readin old attendance data so it can be adjusted in memory and then later spit back into a truncated file. DOES NOT REMOVE HEADER IN MEMORY. The csv header is left as the first entry in the vector!
- * Needs some refactoring.
-2. ```memberexists(std::vector<std::vector<string>> members, string idnum)```
- * This function is just a specialized linear search function. It combs through the members vector search for the given string idnum. If found it returns the integer location in the outmost vector of the member in question. Otherwise it returns -1.
-3. ```checkprevious(String folder)```
- * Scans the attendance for to determine if there were previous events and if so what the names of those previous events were. If there were no previous events check previous should return null.
+### Windows & Why/How They Work
 
-### QT
+## Current Status
 
-_To be expanded_...
+Currently the program requires a lot of error checking. What if a file is already open? What if the user requests a new event file using a filename that already exists? These sorts of cases are not handles by the progam. I would call the program frail at best. It works but only if everything goes absolutely according to plan. This often isn't the case for most software so this situation needs to be corrected.
+
+The excelt file format should be available as there have been options added that will allow the program to write using XLSX format. However there have been problems trying to integrate exterior LIBs into our project. Stay tuned for a solution to this.
