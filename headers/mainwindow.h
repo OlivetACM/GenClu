@@ -37,6 +37,7 @@ class MainWindow : public QWidget {
         QTimer *keyTimer = nullptr;
         bool goodSwipe = false;
         QString markType = "csv";
+        QLabel *hello;
         //QFile memberFile;
 
         // Methods
@@ -46,6 +47,7 @@ class MainWindow : public QWidget {
         void mark();
         void resetMarked();
         void reMark();
+
 
 
 };

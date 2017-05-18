@@ -38,6 +38,10 @@ MainWindow::MainWindow (QWidget *parent) : QWidget(parent) {
     QWidget *buttons = new QWidget(this);
     QGridLayout *buttonLayout = new QGridLayout();
     buttons->setLayout(buttonLayout);
+    
+    hello = new QLabel("MARKED ATTENDEES APPEAR HERE", this);
+    hello->setFont(font);
+    
     // Buttons
     QPushButton *newOutputFile = new QPushButton("New File", this);
     QPushButton *manual = new QPushButton("Manual Entry", this);
@@ -64,6 +68,7 @@ MainWindow::MainWindow (QWidget *parent) : QWidget(parent) {
     layout->addWidget(today, 1, Qt::AlignCenter);
     //layout->addWidget(key, Qt::AlignCenter);
     layout->addWidget(attendLabel, 1, Qt::AlignCenter);
+    layout->addWidget(hello, 1, Qt::AlignRight);
     layout->addWidget(buttons, 1, Qt::AlignRight);
 
     setLayout(layout);
@@ -193,6 +198,9 @@ void MainWindow::manual(QString id) {
 void MainWindow::mark() {
     // Check if already marked
     if (allMembers[lastId]["present"] == "false") {
+        hello->setText("Hello" + 
+                allMembers[lastId]["first"] + " " +
+                allMembers[lastId]["last"] + "!");
         allMembers[lastId]["present"] = "true";
         // Write to file -> Replace with 
         // https://github.com/jmcnamara/MSVCLibXlsxWriter
@@ -216,6 +224,7 @@ void MainWindow::mark() {
         }
     }
     else {
+        hello->setText("MEMBER ALREADY SWIPED");
         qDebug() << "Member ID: " << lastId << " already marked";
     }
 
