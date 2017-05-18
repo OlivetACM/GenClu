@@ -246,13 +246,13 @@ void MainWindow::getAttendanceFilename() {
         exit(0);
     }
     else {
+        resetMarked();
         QFile input(attendPath + "/" + attendFile + "." + markType);
         // If the file already exists
         if (input.exists()) {
             // loading old file
             // Make sure to up date the attendance record so it 
             // won't double mark people
-            resetMarked();
             reMark();
         }
     }
