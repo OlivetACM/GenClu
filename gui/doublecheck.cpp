@@ -11,7 +11,10 @@ doubleCheck::doubleCheck(QString fname, QString lname, QString ID, QWidget *pare
 
     // Generate Layout
     QGridLayout *grid = new QGridLayout(this);
-    QString testing = "Are you sure you want to do this?\n";/* +
+    QString testing = "Are you sure you want to do this?\nFirst Name: %1\nLast Name: %2\nStudent ID: %3";
+    testing.arg(fname).arg(lname).arg(ID);
+
+        /* +
             "First name: " + fname + "\n" +
             "Last name: " + lname + "\n" +
             "Student ID: " + ID; */
