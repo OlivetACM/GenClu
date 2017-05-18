@@ -51,9 +51,9 @@ PreviousEvent::PreviousEvent(QDate today, QWidget *parent, Qt::WindowFlags f) : 
     // Mark Type
     QLabel *formatLabel = new QLabel("File Format", this);
     QButtonGroup *radioGroup2 = new QButtonGroup(this);
-    csvButton = new QRadioButton("CSV Table", this);
+    csvButton = new QRadioButton("CSV Table\nWorks with excel", this);
     csvButton->setChecked(true);
-    xlsxButton = new QRadioButton("Excel File", this);
+    xlsxButton = new QRadioButton("Excel File \n- Not yet implemented!", this);
 
     radioGroup2->addButton(csvButton);
     radioGroup2->addButton(xlsxButton);
