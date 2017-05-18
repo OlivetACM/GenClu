@@ -19,6 +19,7 @@ class MainWindow : public QWidget {
         void close();
         // Timer to soak extra input
         void startAttendance();
+        void getAttendanceFilename();
 
 
     private:
@@ -28,8 +29,10 @@ class MainWindow : public QWidget {
         QString lastId;
         QString memberFile;
         QString attendFile;
+        QString attendPath;
         QMap<QString, QMap<QString, QString>> allMembers;
         QStringList attendance;
+        QLabel *attendLabel;
         
         QTimer *keyTimer = nullptr;
         bool goodSwipe = false;
@@ -37,7 +40,6 @@ class MainWindow : public QWidget {
         //QFile memberFile;
 
         // Methods
-        void getAttendanceFilename();
         void keyPressEvent(QKeyEvent *event);
         void improperSwipe();
         void gatherIDs();

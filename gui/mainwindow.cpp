@@ -27,7 +27,7 @@ MainWindow::MainWindow (QWidget *parent) : QWidget(parent) {
     top->setFont(topFont);
     // Generate Date
     QDate current = QDate::currentDate();
-    QLabel *today = new QLabel("Current Date\n" + current.toString("MMMM dd, yyyy"), this);
+    QLabel *today = new QLabel("Current Date: " + current.toString("MMMM dd, yyyy"), this);
     QFont font;
     font.setPointSize(24);
     today->setFont(font);
@@ -39,26 +39,33 @@ MainWindow::MainWindow (QWidget *parent) : QWidget(parent) {
     QGridLayout *buttonLayout = new QGridLayout();
     buttons->setLayout(buttonLayout);
     // Buttons
+    QPushButton *newOutputFile = new QPushButton("New File", this);
     QPushButton *manual = new QPushButton("Manual Entry", this);
     QPushButton *finish = new QPushButton("Finished", this);
-    buttonLayout->addWidget(manual, 0, 0);
-    buttonLayout->addWidget(finish, 0, 1);
+    buttonLayout->addWidget(newOutputFile, 0, 0);
+    buttonLayout->addWidget(manual, 0, 1);
+    buttonLayout->addWidget(finish, 0, 2);
 
     // Timer to fix garbage card input
     keyTimer = new QTimer(this);
-    // Preppin'
     keyTimer->setSingleShot(true);
 
     // Slots
+    connect(newOutputFile, SIGNAL(clicked()), this, SLOT(getAttendanceFilename()));
     connect(manual, SIGNAL(clicked()), this, SLOT(manual()));
     connect(finish, SIGNAL(clicked()), this, SLOT(close()));
     connect(keyTimer, SIGNAL(timeout()), this, SLOT(startAttendance()));
+    // Small extra
+    attendLabel = new QLabel("Writing To: ", this);
+    attendLabel->setFont(font);
     // Generate Layout
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->addWidget(top, 1, Qt::AlignCenter);
     layout->addWidget(today, 1, Qt::AlignCenter);
     //layout->addWidget(key, Qt::AlignCenter);
+    layout->addWidget(attendLabel, 1, Qt::AlignCenter);
     layout->addWidget(buttons, 1, Qt::AlignRight);
+
     setLayout(layout);
     //layout->setAlignment(Qt::AlignHCenter);
     // Startup the csvDB
@@ -116,14 +123,19 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
     else if (event->key() == Qt::Key_Question) {
         concat = false;
         goodSwipe = true;
+        qDebug() << lastId;
     }
     else if (concat) {
         lastId.append(event->text());
     }
+    else if (goodSwipe) {
+        // Do nothing else
+    }
+
     else {
         goodSwipe = false;
     }
-    qDebug() << lastId;
+    //qDebug() << lastId;
 }
 
 void MainWindow::improperSwipe() {
@@ -167,7 +179,7 @@ void MainWindow::manual(QString id) {
             temp["last"] = newMember["last"];
             temp["present"] = "false";
             allMembers[newMember["id"]] = temp;
-
+            lastId = newMember["id"];
             qDebug() << QString("Updated Members:\n") << allMembers;
             memberFile.close();
         }
@@ -185,7 +197,8 @@ void MainWindow::mark() {
         // Write to file -> Replace with 
         // https://github.com/jmcnamara/MSVCLibXlsxWriter
         if (markType == "csv") {
-            QFile writeTo(attendFile + ".csv");
+            qDebug() << "Writing to CSV{" << attendFile << ".csv}";
+            QFile writeTo(attendPath + attendFile + ".csv");
             writeTo.open(QIODevice::Append | QIODevice::Text);
             QTextStream output(&writeTo);
             QString last = allMembers[lastId]["last"];
@@ -199,8 +212,11 @@ void MainWindow::mark() {
             writeTo.close();
         }
         else if (markType == "xlsx") {
-            //
+            // Not yet implemented
         }
+    }
+    else {
+        qDebug() << "Member ID: " << lastId << " already marked";
     }
 
 }
@@ -211,11 +227,14 @@ void MainWindow::getAttendanceFilename() {
     int result = todaysEvent->exec();
     if (result) {
         attendFile = todaysEvent->getAttendanceFilename();
-        qDebug() << "Event file: " << attendFile << " selected!";
+        markType = todaysEvent->getMarkType();
+        attendLabel->setText("Writing To: " + attendFile + "." + markType);
+        attendPath = todaysEvent->getFilePath();
+        qDebug() << "Event file:" << attendFile << "selected!";
         delete todaysEvent;
     }
-    else {
-        QApplication::quit();
+    if (attendFile.trimmed().isEmpty()) {
+        exit(0);
     }
 }
 

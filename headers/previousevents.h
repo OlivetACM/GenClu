@@ -16,6 +16,8 @@ class PreviousEvent : public QDialog {
     public:
         PreviousEvent(QDate today, QWidget *parent = 0, Qt::WindowFlags f = 0);
         QString getAttendanceFilename();
+        QString getFilePath();
+        QString getMarkType();
     private:
         void getEvents(QDate today);
         // 
@@ -24,9 +26,11 @@ class PreviousEvent : public QDialog {
         QString newFile;
 
         QComboBox *combo;
-        QButtonGroup *radioGroup;
+        QButtonGroup *radioGroup1;
         QRadioButton *newEventRadio;
         QRadioButton *previousEventRadio;
         QLineEdit *newEventEdit;
+        QRadioButton *csvButton;
+        QRadioButton *xlsxButton;
 
 };
