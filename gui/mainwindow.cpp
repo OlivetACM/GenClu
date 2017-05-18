@@ -198,7 +198,7 @@ void MainWindow::manual(QString id) {
 void MainWindow::mark() {
     // Check if already marked
     if (allMembers[lastId]["present"] == "false") {
-        hello->setText("Hello" + 
+        hello->setText("Hello " + 
                 allMembers[lastId]["first"] + " " +
                 allMembers[lastId]["last"] + "!");
         allMembers[lastId]["present"] = "true";
