@@ -1,3 +1,4 @@
+
 # C++ objects and libs
 
 *.slo
@@ -42,6 +43,7 @@ CMakeLists.txt.user
 *.un*
 *.swp
 *.exe
+*~
 
 # Compilation Ignores
 debug/

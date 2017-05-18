@@ -9,8 +9,8 @@ class doubleCheck : public QDialog {
     Q_OBJECT
 
     public:
-        doubleCheck(QWidget *parent = 0, Qt::WindowFlags f = 0);
+        doubleCheck(QString fname, QString lname, QString ID, QWidget *parent = 0, Qt::WindowFlags f = 0);
 
     private:
 
-}
+};

@@ -16,6 +16,9 @@ class manualEntry : public QDialog {
         // Methods
         QMap<QString, QString> data();
 
+    public slots:
+        void accept() override;
+
     private:
         QLineEdit *firstName;
         QLineEdit *lastName;

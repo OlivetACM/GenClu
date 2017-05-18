@@ -5,13 +5,18 @@
 #include <QGridLayout>
 #include <doublecheck.h>
 
-doubleCheck::doubleCheck(QWidget *parent, Qt::WindowFlags f) : QDialog(parent, f) {
+//take fname, lname, ID
+doubleCheck::doubleCheck(QString fname, QString lname, QString ID, QWidget *parent, Qt::WindowFlags f) : QDialog(parent, f) {
     setWindowTitle("Confirm Action");
 
     // Generate Layout
     QGridLayout *grid = new QGridLayout(this);
-    QLabel *warning = new QLabel("Are you sure you want to do this?", this);
-    
+    QString testing = "Are you sure you want to do this?\n";/* +
+            "First name: " + fname + "\n" +
+            "Last name: " + lname + "\n" +
+            "Student ID: " + ID; */
+    QLabel *warning = new QLabel(testing, this);
+
     // Generate Buttons
     QPushButton *cancel = new QPushButton("Cancel", this);
     QPushButton *confirm = new QPushButton("Confirm", this);
@@ -19,9 +24,9 @@ doubleCheck::doubleCheck(QWidget *parent, Qt::WindowFlags f) : QDialog(parent, f
     connect(confirm, SIGNAL(clicked()), this, SLOT(accept()));
 
     // Bring it all together
-    grid->addWidget(warning, 0, 0, 1, 2);
+    grid->addWidget(warning, 0, 0, 1, 2);    
     grid->addWidget(cancel, 2, 2);
     grid->addWidget(confirm, 2, 1);
-
     setLayout(grid);
+    
 }

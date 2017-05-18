@@ -7,6 +7,7 @@
 #include <QMap>
 #include <QString>
 #include <manualentries.h>
+#include <doublecheck.h>
 
 manualEntry::manualEntry(QWidget *parent, Qt::WindowFlags f) : QDialog(parent, f){
     QGridLayout *grid = new QGridLayout(this);
@@ -61,6 +62,14 @@ void manualEntry::initLayout(QGridLayout *grid) {
 
 }
 
+void manualEntry::accept() {
+    doubleCheck *sure = new doubleCheck(firstName->text(), lastName->text(), studentID->text(), this);
+    int result = sure->exec();
+    if(result == 1) {
+        emit accepted();
+    }
+    delete sure;
+}
 
 QMap<QString, QString> manualEntry::data() {
     QMap<QString, QString> results;
