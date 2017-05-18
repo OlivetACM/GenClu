@@ -66,7 +66,7 @@ void manualEntry::accept() {
     doubleCheck *sure = new doubleCheck(firstName->text(), lastName->text(), studentID->text(), this);
     int result = sure->exec();
     if(result == 1) {
-        emit accepted();
+        QDialog::accept();
     }
     delete sure;
 }
