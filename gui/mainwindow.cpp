@@ -76,7 +76,7 @@ MainWindow::MainWindow (QWidget *parent) : QWidget(parent) {
     // Startup the csvDB
     show();
 
-    memberFile = "../members.csv";
+    memberFile = "./members.csv";
     gatherIDs();
     getAttendanceFilename();
 }
@@ -122,7 +122,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
             lastId = QString();
             concat = true;
             // 100ms should be enough time to capture card input
-            keyTimer->start(100);
+            keyTimer->start(400);
         }
     }
     else if (event->key() == Qt::Key_Question) {
@@ -172,7 +172,7 @@ void MainWindow::manual(QString id) {
         if (!newMember["id"].trimmed().isEmpty() && 
                 !newMember["first"].trimmed().isEmpty() &&
                 !newMember["last"].trimmed().isEmpty()) {
-            QFile memberFile("../members.csv");
+            QFile memberFile(memberFile);
             memberFile.open(QIODevice::Append | QIODevice::Text);
             QTextStream memberStream(&memberFile);
             memberStream << newMember["id"] + "," +
