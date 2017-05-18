@@ -172,21 +172,24 @@ void MainWindow::manual(QString id) {
         if (!newMember["id"].trimmed().isEmpty() && 
                 !newMember["first"].trimmed().isEmpty() &&
                 !newMember["last"].trimmed().isEmpty()) {
-            QFile memberFile(memberFile);
-            memberFile.open(QIODevice::Append | QIODevice::Text);
-            QTextStream memberStream(&memberFile);
-            memberStream << newMember["id"] + "," +
-                            newMember["last"] + "," + 
-                            newMember["first"] << "\n";
-            // Add to memory
-            QMap<QString, QString> temp;
-            temp["first"] = newMember["first"];
-            temp["last"] = newMember["last"];
-            temp["present"] = "false";
-            allMembers[newMember["id"]] = temp;
+            QStringList keys = allMembers.keys();
+            if (!keys.contains(newMember["id"])) {
+                QFile memberFile(memberFile);
+                memberFile.open(QIODevice::Append | QIODevice::Text);
+                QTextStream memberStream(&memberFile);
+                memberStream << newMember["id"] + "," +
+                                newMember["last"] + "," + 
+                                newMember["first"] << "\n";
+                // Add to memory
+                QMap<QString, QString> temp;
+                temp["first"] = newMember["first"];
+                temp["last"] = newMember["last"];
+                temp["present"] = "false";
+                allMembers[newMember["id"]] = temp;
+                qDebug() << QString("Updated Members:\n") << allMembers;
+                memberFile.close();
+            }
             lastId = newMember["id"];
-            qDebug() << QString("Updated Members:\n") << allMembers;
-            memberFile.close();
         }
     }
     delete manWindow;
