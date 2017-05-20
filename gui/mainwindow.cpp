@@ -43,7 +43,7 @@ MainWindow::MainWindow (QWidget *parent) : QWidget(parent) {
     hello->setFont(font);
     
     // Buttons
-    QPushButton *newOutputFile = new QPushButton("New File", this);
+    QPushButton *newOutputFile = new QPushButton("Change File", this);
     QPushButton *manual = new QPushButton("Manual Entry", this);
     QPushButton *finish = new QPushButton("Finished", this);
     buttonLayout->addWidget(newOutputFile, 0, 0);
