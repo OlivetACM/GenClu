@@ -26,38 +26,24 @@ First you need to run QMake to generate all the MOC files.
 ```
 > qmake genclu.pro
 ```
-
-Then a simple make command. Currently the program only compiles for debug and not release. 
-To compile it for debug use
+To compile the program in release mode use the following command to generate an executable.
 ```
-> nmake
+> nmake release
 ```
-
-To compile for release change the following line in genclu.pro
+Then if you want to make the application deployable you will have to run another Qt utility called windeployqt. So from there run the following.
 ```
-CONFIG += qt debug console
-```
-To
-```
-CONFIG += qt release console
+> nmake clean
+> cd release
+> windeployqt --release GenClu.exe
 ```
 
-Then run qmake so that it updates the Makefile. Then finally just run nmake.
-```
-> nmake
-```
-
-
-## What and How Functions Work
-
-### Headers
-
-### Helpers
-
-### Windows & Why/How They Work
+Then feel free to put the files in a zip or an installer to distribute the executable and the resources to end-users.
+We've gone through and bundled the application for convience and flash-drive style ease of use.
+To bundle the executable we used Enigma Virtual Box.
+Stay tuned!
 
 ## Current Status
 
 Currently the program requires a lot of error checking. What if a file is already open? What if the user requests a new event file using a filename that already exists? These sorts of cases are not handles by the progam. I would call the program frail at best. It works but only if everything goes absolutely according to plan. This often isn't the case for most software so this situation needs to be corrected.
 
-The excelt file format should be available as there have been options added that will allow the program to write using XLSX format. However there have been problems trying to integrate exterior LIBs into our project. Stay tuned for a solution to this.
+The excel file format should be available as there have been options added that allow the program to write using XLSX format. However there have been problems trying to find a good usable lib that is constantly updated. Stay tuned for a solution to this.
