@@ -1,5 +1,17 @@
 # GenClu
 
+## Table of Contents
+
+1. [Purpose] (#purpose)
+2. [Customizing GenClu](#adapting-genclu-for-your-group)
+3. [Compiling GenClu](#compiling-genclu)
+4. [Current Status Remarks](#current-status)
+5. [How To Use](#how-to-use)
+    * [General Use](#general-use)
+    * [Additional Features](#additional-features)
+    * [Problems](#problems)
+
+
 ## Purpose
 GenClu is a very simple attendance program which uses a QT frontend. The idea is that there are many very complex and attendance takers out there on the web but none that just do "the basics". GenClu is here to fix this. The features will be intentionally limited and small but, in doing so, they should perfect and flawless. 
 
@@ -49,6 +61,7 @@ Currently the program requires a lot of error checking. What if a file is alread
 The excel file format should be available as there have been options added that allow the program to write using XLSX format. However there have been problems trying to find a good usable lib that is constantly updated. Stay tuned for a solution to this.
 
 ## How to Use
+
 ### General Use
 1. Download the most recent release version of the program [here](https://github.com/OlivetACM/GenClu/releases/download/1.0-alpha/GenClu_boxed_1.0.exe).
     * If you're choosing to compile your own version follow those steps before proceeding.
@@ -66,7 +79,6 @@ The excel file format should be available as there have been options added that 
 6. If your swipe was successful then you will see a greeting like "Hello FirstName LastName!" right above the buttons. 
     * If you swipe a member who has already been swiped for that event then you'll see something along the lines of "MEMBER ALREADY SWIPED".
     * If the programd detects a bad swip then you will be prompted to either do a full manual entry OR click Cancel and reswipe the card.
-
 7. When done just close the program!
 
 ### Additional Features
