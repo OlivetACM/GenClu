@@ -174,9 +174,14 @@ void MainWindow::manual(QString id) {
                 !newMember["last"].trimmed().isEmpty()) {
             QStringList keys = allMembers.keys();
             if (!keys.contains(newMember["id"])) {
+                QFileInfo csvInfo(memberFile);
+                bool fileExists = csvInfo.exists() && csvInfo.isFile();
                 QFile memberFile(memberFile);
                 memberFile.open(QIODevice::Append | QIODevice::Text);
                 QTextStream memberStream(&memberFile);
+                if (!fileExists) {
+                    memberStream << "ID,Last Name,First Name" << "\n";
+                }
                 memberStream << newMember["id"] + "," +
                                 newMember["last"] + "," + 
                                 newMember["first"] << "\n";
@@ -208,10 +213,17 @@ void MainWindow::mark() {
         // Write to file -> Replace with 
         // https://github.com/jmcnamara/MSVCLibXlsxWriter
         if (markType == "csv") {
+            QString filename = attendPath + attendFile + ".csv";
+            QFileInfo csvInfo(filename);
+            bool fileExists = csvInfo.exists() && csvInfo.isFile();
             qDebug() << "Writing to CSV{" << attendFile << ".csv}";
-            QFile writeTo(attendPath + attendFile + ".csv");
+            QFile writeTo(filename);
             writeTo.open(QIODevice::Append | QIODevice::Text);
             QTextStream output(&writeTo);
+            if (!fileExists) {
+                // Write Categories
+                output << "Last Name,First Name,ID" << "\n";
+            }
             QString last = allMembers[lastId]["last"];
             QString first = allMembers[lastId]["first"];
             output << last + ","
@@ -271,22 +283,23 @@ void MainWindow::resetMarked() {
 
 void MainWindow::reMark() {
     if (markType == "csv") {
-    // Read in new file
-    QFile input(attendPath + "/" + attendFile + ".csv");
-    input.open(QIODevice::ReadOnly | QIODevice::Text);
-    QTextStream readFrom(&input);
-    QStringList members = readFrom.readAll().trimmed().split("\n");
-    input.close();
-    int len = members.length();
-    qDebug() << "Previous Entries" << len;
-    QStringList member;
-    for (int i = 0; i < len; i++) {
-        member = members.at(i).split(",");
-        allMembers[member.at(2)]["present"] = "true";
+        // Read in new file
+        QFile input(attendPath + "/" + attendFile + ".csv");
+        input.open(QIODevice::ReadOnly | QIODevice::Text);
+        QTextStream readFrom(&input);
+        QStringList members = readFrom.readAll().trimmed().split("\n");
+        input.close();
+        int len = members.length();
+        qDebug() << "Previous Entries" << len;
+        QStringList member;
+        for (int i = 1; i < len; i++) {
+            member = members.at(i).split(",");
+            allMembers[member.at(2)]["present"] = "true";
+        }
+        qDebug() << "Attendance Updated for New File";
+        qDebug() << allMembers;
     }
-    qDebug() << "Attendance Updated for New File";
-    qDebug() << allMembers;
-    }
+    hello->setText("");
 }
 int main(int argc, char **argv) {
     QApplication app(argc, argv);
