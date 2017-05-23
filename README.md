@@ -1,4 +1,4 @@
-# GenClue
+# GenClu
 
 ## Purpose
 GenClu is a very simple attendance program which uses a QT frontend. The idea is that there are many very complex and attendance takers out there on the web but none that just do "the basics". GenClu is here to fix this. The features will be intentionally limited and small but, in doing so, they should perfect and flawless. 
@@ -47,3 +47,37 @@ Stay tuned!
 Currently the program requires a lot of error checking. What if a file is already open? What if the user requests a new event file using a filename that already exists? These sorts of cases are not handles by the progam. I would call the program frail at best. It works but only if everything goes absolutely according to plan. This often isn't the case for most software so this situation needs to be corrected.
 
 The excel file format should be available as there have been options added that allow the program to write using XLSX format. However there have been problems trying to find a good usable lib that is constantly updated. Stay tuned for a solution to this.
+
+## How to Use
+### General Use
+1. Download the most recent release version of the program [here](https://github.com/OlivetACM/GenClu/releases/download/1.0-alpha/GenClu_boxed_1.0.exe).
+    * If you're choosing to compile your own version follow those steps before proceeding.
+2. Put GenClu\_boxed.exe wherever you want on your computer. My suggestion would be to give it's own folder on your desktop or just give GenClu its own flash drive.
+3. Run the executable, traditionally by double-clicking.
+4. Select either "New Event" or "Previous Event". 
+    * Make sure you have the right radio button selected! (The circle dot that fills itself when clicked)
+    * GenClu will generate an attendance folder in the same folder it lives in. It will also generate a folder with the name of todays date in the form yyy.MM.dd therefore May 7th, 1994 => 1994.05.07
+    * Inside this folder will be the the event files which will be either CSV or XLSX format. Currently only CSV is implemented. Keep in mind that either of these files can be opened in MCS Excel or Libre Calc without any issues.
+5. Use an Card Reader to swipe an ID or enter the data manually.
+    * If you choose to swipe an id using a Card Reader you will still have to input FirstName and LastName by hand. This should only ever happen once. Future swipes will automatically use the previously entered data.
+    * When you manually enter data after swiping you will notice that the ID field cannot be changed. THIS IS WORKING AS INTENDED. That field is filled with data on the card. It is the de facto identifier whether or not the swiper understands that that is their true id. A "True ID" field may be added in the future to workaround this issue despite it not being a fault of the program.
+    * When you FULLY manually enter data (id as well) this is just as technically effective as the card swipe and runs through the jumps through the same hoops as swiping.
+    * If members.csv does not exist when the program recieves its first bits of data it will create the CSV in its personal directory. Don't delete this file unless you want to manually enter data a ton.
+6. If your swipe was successful then you will see a greeting like "Hello FirstName LastName!" right above the buttons. 
+    * If you swipe a member who has already been swiped for that event then you'll see something along the lines of "MEMBER ALREADY SWIPED".
+    * If the programd detects a bad swip then you will be prompted to either do a full manual entry OR click Cancel and reswipe the card.
+
+7. When done just close the program!
+
+### Additional Features
+* Using previous events.
+    * If you're going to edit previous events the understand that GenClu will only allow you change events that happened that day. If you need to edit attendance files from May 9th and today is May 10th GenClu will not display any of the May 9th files for editing.
+    * You can however edit previous days by hand using any basic text editor or spreadsheet editor. Please do note that attendance is logged in the order of `LastName,FirstName,IDNumber\n` kind of way. Any variations of this might break GenClu.
+* Changing Files
+    * You can create another event or edit another event without closing GenClu. Just click the "Change File" button and the "SELECT ATTENDANCE FILE" prompt will reappear. Any members that were previously marked as "present" will be loaded correctly.
+
+### Problems
+These are "bugs" exactly but just things that were never handled in the first place.
+1. Make sure that when you enter someone's information manually or swipe their card that you don't have the attendance file open in excel. This will cause the program to crash. It's a not huge deal because you can reopen the program and then have it reopen the file it was using previously. So if you need to access the attendance file, simply don't enter anyone manually or swipe with their card while the attendance file is open but be sure to close excel or whatever you're using to view the file before swiping/entering again.
+
+2. Alphabetical ordering of the attendance file. The reason why is complex. Basically the only thing we can do to fix this is to have the program reorder the attendance file after it's been closed or switches files. We can add a button to do it as well. 
