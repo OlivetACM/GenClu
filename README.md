@@ -2,7 +2,7 @@
 
 ## Table of Contents
 
-1. [Purpose] (#purpose)
+1. [Purpose](#purpose)
 2. [Customizing GenClu](#adapting-genclu-for-your-group)
 3. [Compiling GenClu](#compiling-genclu)
 4. [Current Status Remarks](#current-status)
