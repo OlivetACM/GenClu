@@ -48,5 +48,8 @@ CMakeLists.txt.user
 # Compilation Ignores
 debug/
 release/
-# MSVCLibXlsxWriter
-MSVCLibXlsxWriter/
+
+# Static QT Compile
+genclu_plugin_import.cpp
+
+
