@@ -54,16 +54,10 @@ We've gone through and bundled the application for convience and flash-drive sty
 To bundle the executable we used Enigma Virtual Box.
 Stay tuned!
 
-## Current Status
-
-Currently the program requires a lot of error checking. What if a file is already open? What if the user requests a new event file using a filename that already exists? These sorts of cases are not handles by the progam. I would call the program frail at best. It works but only if everything goes absolutely according to plan. This often isn't the case for most software so this situation needs to be corrected.
-
-The excel file format should be available as there have been options added that allow the program to write using XLSX format. However there have been problems trying to find a good usable lib that is constantly updated. Stay tuned for a solution to this.
-
 ## How to Use
 
 ### General Use
-1. Download the most recent release version of the program [here](https://github.com/OlivetACM/GenClu/releases/download/1.0-alpha/GenClu_boxed_1.0.exe).
+1. Download the most recent release version of the program [here](https://github.com/OlivetACM/GenClu/releases/).
     * If you're choosing to compile your own version follow those steps before proceeding.
 2. Put GenClu\_boxed.exe wherever you want on your computer. My suggestion would be to give it's own folder on your desktop or just give GenClu its own flash drive.
 3. Run the executable, traditionally by double-clicking.
