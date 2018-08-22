@@ -21,7 +21,7 @@ MainWindow::MainWindow (QWidget *parent) : QWidget(parent) {
     setWindowTitle("Generic Club Tracker");
     concat = false;
     // Generate cosmetics
-    QLabel *top = new QLabel("Please Begin Swipping to take Attendance");
+    QLabel *top = new QLabel("Please Begin Swiping to take Attendance");
     QFont topFont;
     topFont.setPointSize(32);
     top->setFont(topFont);
@@ -176,7 +176,7 @@ void MainWindow::manual(QString id) {
             if (!keys.contains(newMember["id"])) {
                 QFileInfo csvInfo(memberFile);
                 bool fileExists = csvInfo.exists() && csvInfo.isFile();
-                QFile memberFile(memberFile);
+                QFile memberFile(&memberFile);
                 memberFile.open(QIODevice::Append | QIODevice::Text);
                 QTextStream memberStream(&memberFile);
                 if (!fileExists) {
