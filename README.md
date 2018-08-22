@@ -15,7 +15,7 @@
 ## Purpose
 GenClu is a very simple attendance program which uses a QT frontend. The idea is that there are many very complex and attendance takers out there on the web but none that just do "the basics". GenClu is here to fix this. The features will be intentionally limited and small but, in doing so, they should perfect and flawless. 
 
-Originally purposed by the Olivet College Sigma Zeta chapter, this project project was developed by the Olivet College chapter  of the Association for Computing Machinery to assist them with their massive attendance numbers. 
+Originally proposed by the Olivet College Sigma Zeta chapter, this project was developed by the Olivet College chapter of the Association for Computing Machinery to assist them with their massive attendance numbers. 
 
 ## Adapting GenClu for Your Group
 
