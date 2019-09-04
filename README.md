@@ -87,4 +87,3 @@ These aren't "bugs" exactly but just things that were never handled in the first
 1. Make sure that when you enter someone's information manually or swipe their card that you don't have the attendance file open in excel. This will cause the program to crash. It's a not huge deal because you can reopen the program and then have it reopen the file it was using previously. So if you need to access the attendance file, simply don't enter anyone manually or swipe with their card while the attendance file is open but be sure to close excel or whatever you're using to view the file before swiping/entering again.
 
 2. Alphabetical ordering of the attendance file. The reason why is complex. Basically the only thing we can do to fix this is to have the program reorder the attendance file after it's been closed or switches files. We can add a button to do it as well. 
-# AttendanceTracker
